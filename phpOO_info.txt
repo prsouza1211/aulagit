@@ -1,0 +1,57 @@
+Curso: Iniciando PHP com OO
+
+A partir da versão 5.4, o PHP já traz um servidor embutido. Assim, não há necessidade da instalação de servidores externos. 
+Para iniciar o servidor, via linha de comando digite: php -S localhost:porta (8000,8080)...
+
+Paradigmas de Programação
+Estrutural, Funcional e Orientação a Objetos. 
+
+Paradigma de Orientação a Objetos
+Conceito: Enxergar os problemas do cotidiano como objetos. Os objetos podem se encaixar com outros objetos, gerando assim uma aplicação. 
+A principal vantagem é a reutilização do código. Cria-se um programa só e o utiliza n vezes. 
+Classe: é a estrutura-base(molde) de algo concreto. 
+Método: é uma função. 
+
+Iniciando com OO
+Cria-se somente um arquivo por classe. 
+No arquivo criado, digita-se o nome da Classe com a primeira letra maiúscula. 
+Nome da classe sempre no singular. 
+
+Atributos
+São variáveis(propriedades) de um objeto. Podemos atribuir valores aos atributos. 
+
+Métodos
+São ações que uma classe pode executar. Um método é uma função de uma classe. 
+
+Assinatura de método
+é o conjunto formado pelo modificador de acesso + function + nome do método. 
+
+Herança
+Uma classe específica(filha) utiliza métodos e atributos de uma classe mais genérica(pai). 
+O termo extends caracteriza a herança. Exemplo: class Car extends Vehicle. 
+
+Método construtor
+Permite inicializar os atributos de um objeto. Executado sempre que uma classe é instanciada. 
+
+Chamando o construtor de uma classe base... parent::__construct
+
+Public e Private: modificadores de acesso. 
+Se atributos e métodos são declarados como public, eles podem ser acessados de qualquer outro script. 
+Sendo declarados como private, podem ser utilizados somente dentro da própria classe. 
+
+Protected: modificador de acesso que pode ser utilizado dentro da classe base e das classes-filhas apenas. 
+
+Classes Abstratas
+Uma classe abstrata é uma espécie de molde para criação de outras classes. 
+Ela não pode ser instanciada, somente herdada. Deve conter ao menos um método também abstrato que, 
+obrigatoriamente deve ser implementado nas classes-filhas. 
+
+Interface
+É uma espécie de contrato para comportamento e funcionamento de classes que implementem este contrato. 
+Resume toda a estrutura das classes a serem criadas. 
+
+Injeção de dependência
+O conceito de autoload, ou seja, apenas um script contendo todas as classes que precisam 
+ser automaticamente inicializadas. 
+
+

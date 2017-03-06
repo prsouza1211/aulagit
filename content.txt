@@ -1,0 +1,1 @@
+Abrindo arquivo atraves do PHP. E vai se lascar porra!

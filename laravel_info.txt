@@ -1,0 +1,117 @@
+Projeto Laravel
+---------------------------------------------------------------------------------------------------------
+
+1-) Configuração de Projeto
+
+Todos os arquivos de configuração da aplicação estão localizados na pasta config. 
+
+O arquivo broadcasting.php contém configurações para quando se está trabalhando em tempo real. 
+
+A maioria dos arquivos de configuração contém a função env, cuja função é permitir que determinados 
+parâmetros de configuração não sejam compartilhados. Além disso, retorna somente variáveis de ambiente. 
+
+Dentro do projeto, temos o arquivo .env que guarda todas as variáveis de ambiente. Além de tornar mais
+fácil o registro de novas variáveis. 
+
+
+2-) Rotas
+
+A partir do release 5.3 o arquivo de rotas está localizado na pasta routes, que contém 3 arquivos: web, api e console.php. 
+As rotas tratam requisições direcionando respostas de métodos para endereços especificados. 
+06 tipos de requisições são aceitas: get, post, put, delete, path e option. 
+Para que uma rota funcione corretamente com alguns tipos de requisição, utilizamos o método match([requisições],action, function())
+Para qualquer tipo de requisição, utilizamos o método any.
+Em se tratando de rotas, tudo o que envolve o grupo middleware possui os recursos necessários para que as requisições funcionem de forma correta. 
+Examinar o arquivo web.php (diretório routes) para saber como se criar um grupo para rotas. 
+Neste mesmo arquivo é possível trabalhar com parâmetros de rota(sempre vem entre chaves{} e é transformado numa variável). 
+
+
+3-) Views
+Arquivos de layout, localizados na pasta resources/views.
+
+
+4-) Templates Blade
+Para exibir variáveis na view, originárias da rota, basta configurar o segundo parâmetro da rota em questão. 
+Exemplo: return view('nome', [chave => valor]);
+Os valores das variáveis são "escapados" automaticamente. Este recurso evita SQL Injection. 
+Nas views, os valores são exibidos entre chaves {{ variavel }}. 
+Caso haja a necessidade de passar um conteúdo sem escape conhecido, basta utilizar {!!variavel!!}
+Existe o conceito de subtemplates. É possível dividir a página html em componentes(header, footer...) e reaproveitá-los em várias outras páginas. 
+<!--<p>{{$foo}} {!!$bar!!}</p>-->s
+
+O reaproveitamento dos trechos de códigos está exemplificado pelos arquivos bar.blade e base.blade dentro da pasta views. 
+Por fim, é explicado o funcionamento das estruturas de repetição dentro do Blade... if, while, foreach...
+A forma de se utilizar esses comandos é através da sintaxe @nomedocomando código aqui no meio @endnomedocomando
+
+
+5-) Controllers
+
+Para criar um controller: php artisan make:controller NomeController .
+Todos os controllers ficam na pasta app/Http/Controllers
+
+Route::get('/', function () {
+		return 'Listar usuários';
+	});
+	
+	Route::get('{id}', function ($id) {
+		return 'Info sobre o user: '. $id;
+	});
+	
+	Route::get('add', function () {
+		return 'Cadastrar usuários';
+	});
+	
+
+6-) Formulários
+Criar forms no método tradicional, gera um erro de CSRF token. Para evitá-lo devemos utilizar um token gerado pelo Laravel, 
+que garante que o form foi criado dentro do próprio framework. Cria-se um input do tipo hidden, com o nome _token e no atributo value
+passamos a função {{ csrf_token }}.
+A classe Request permite recuperar todos os dados digitados em um form. Para visualizar todos os dados, use $request->all();
+Para visualizar um campo específico use $request->input('fieldname'). Um conjunto de campos pode ser retornado através de $request->only(campo 1, campo n);
+
+7-) Validando Formulários
+
+O método validate traz recursos embutidos para validação de formulários. $this->validate($request, [inputs]);
+IMPORTANTE: acessar a documentação para procurar todas as regras de validação dos forms. Available Validation Rules. 
+Para validação de um campo de senha com confirmação é preciso que o campo de confirmação tenha o mesmo nome do campo senha
+seguido de _confirmation. 
+É possível visualizar os erros de validação utilizando a variável $errors. Exemplo: {{ $errors }} na mesma página do formulário. 
+Para retornar o erro de apenas um campo, utiliza-se o método has. Exemplo $errors->has('nomedocampo');
+O método get retorna todos os erros de um campo específico. 
+Caso precise traduzir as mensagens de erro para português, a comunidade Laravel já disponibilizou no GitHub um pacote. 
+Pesquisar no Google por Laravel Lang. 
+
+8-) Migrations
+Mecanismo para trabalhar com a estrutura do banco de dados. Ficam armazenadas em database/migrations.
+Duas migrations padrão são a de usuários e recuperação de senha. Dois métodos básicos são 
+up(para construção de um esquema de tabela) e down(para destruição do esquema). 
+No método up, define-se vários parâmetros para campos através de métodos. O método rememberToken é usado para recuperação de senhas. 
+O método timestamps cria campos de datas que o Eloquent(ORM do Laravel) utiliza. 
+A lista completa dos métodos encontra-se na documentação do framework (Available column types). 
+Criando uma nova migration: php artisan make:migration create_products_table --create=products
+Enviar a estrutura para o banco de dados: php artisan migrate
+Para remover a estrutura: php artisan migrate:reset
+
+9-)Query Builder
+Consultas em uma base de dados. 
+Comando tinker: permite executar comandos do php e do laravel dentro do terminal. 
+php artisan tinker
+inserir registros: DB::table('tabela')->insert([campos formato chave=>valor])
+select all: DB::table('tabela')->get()
+select where DB::table('tabela')->where('campo', valor)->get()
+atualizando: DB::table('tabela')->where('campo', valor)->update([lista de 'campo' => 'valor'])
+excluindo: DB::table('tabela')->where('campo', valor)->delete()
+
+10-)Eloquent
+ORM do Laravel. 
+Os models ficam na pasta app. Neste caso o User está sendo aplicado. 
+O atributo fillable permite determinar quais campos serão preenchidos. 
+O parâmetro hidden, oculta alguns parâmetros que não interessam ser retornados. 
+Para criar um model: php artisan make:model NomeDoModel
+Para criar um novo registro a partir do Model: App\NomeDoModel::create([campos 'chave' => valor])
+Listar todos os usuários: $all = App\NomeDoModel::all()
+Listar um registro específico pelo ID: $user = App\NomeDoModel::find(id)
+para excluir após listar: $user->delete()
+
+
+
